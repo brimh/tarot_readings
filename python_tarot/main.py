@@ -1,15 +1,5 @@
 #main file for tarot python script
 """
-MUST HAVE:
-Terminal program with at least one interactive feature using input()
-Use git version control
-Use command line and file navigation
-Write an online post on the project
-
-"""
-
-#please push commit
-"""
 IDEA:
 Class defining tarot cards
     Init Name, number, major/minor arcana, cups/wands/knives/pentacles/Null alignment, upright/reversed???,
@@ -223,17 +213,18 @@ class deck:
                 print("The {position} {name}: ".format(position=card.position, name=card.name) + card.reversed_meaning)
 
 
-#BUILDING DECK FROM FILE
+#PULLING CARD DATA FROM TEXT FILE
 with open('card_data.txt') as card_doc:
     card_text = card_doc.read()
-first_split = card_text.split('!')
-second_split = []
-tarot_deck = []
-for card in first_split:
-    second_split.append(card.split(';'))
-for entry in second_split:
-    tarot_deck.append(tarot_card(entry[0], entry[1], entry[2], entry[3], entry[4], entry[5], entry[6]))
+    first_split = card_text.split('!')
+    second_split = []
+    tarot_deck = []
+    for card in first_split:
+        second_split.append(card.split(';'))
+        for entry in second_split:
+            tarot_deck.append(tarot_card(entry[0], entry[1], entry[2], entry[3], entry[4], entry[5], entry[6]))
 
+#BUILDING NEW DECK
 new_deck = deck(tarot_deck, "Raider Waite")
 
 #START MAIN LOOP
@@ -303,15 +294,13 @@ while loop2 == True:
             loop3  = True
 
 
-#TESTING
+#OLD TESTING
 #the_Fool = tarot_card("Fool", 0, "Major", "Null", "upright", "Folly, mania, extravagance", "Negligence, absense, distribution")
 #the_Magician = tarot_card("Magician", 1, "Major", "Null", "upright", "Skill, diplomacy, self-confidence", "Illness, disgrace, disquiet")
 #the_High_Priestess = tarot_card("High Priestess", 2, "Major", "Null", "upright", "Secrets, mystery, the future as yet unrevealed", "Passion, conceit, surface knowledge")
 #the_Empress = tarot_card("Empress", 3, "Major", "Null", "upright", "Fruitfulness, initiative, clandestine", "Light, truth, the unraveling of involved matters")
 #the_Emperor = tarot_card("Emperor", 4, "Major", "Null", "upright", "Stability, power, protection", "Benevolence, compassion, immaturity")
 #print(the_Fool)
-
-
 #print(new_deck)
 #new_deck.cardOfTheDay()
 #new_deck.twoCardCross()
