@@ -1,29 +1,8 @@
 #main file for tarot python script
-"""
-IDEA:
-Class defining tarot cards
-    Init Name, number, major/minor arcana, cups/wands/knives/pentacles/Null alignment, upright/reversed???,
-    upright meaning, reversed meaning, elemental alignment?
-    Repr card info
-    Reset - resets all cards to upright position??????
-Class for Deck
-    Init List of tarot card objects based on provided information
-    Repr names of all cards in deck
-    Shuffle - takes number of cards to randomly draw from deck based on Spread, assigns upright/reversed value,
-    returns card values
-Methods for Spread (a spread is a specific layout of cards chosen from the deck to intuit specific fortunes or questions)
-    THIS SHOULD BE WITHIN THE DECK CLASS
-    Would take random cards from a Deck object and array them into a specific spread based on what is requested by user
-    Potential spreads: Past/Present/Future(3 cards), 4 card spread, card of the day (1 card)
-Main code allows user to select what kind of spread they want and will produce text of that spread
-
-BONUS:
-I could input multiple types of decks for the user to choose from
-Expanded spread options
-raider waite deck has 78 cards total (22 major, 56 minor)
-"""
+import os.path
 import random
 import time
+from pathlib import Path
 
 #TAROT CARD CLASS - Creates a card with all their features and meanings
 class tarot_card:
@@ -92,9 +71,9 @@ class deck:
 
         print("   T W O  C A R D  C R O S S   \n"
               "_______________________________")
-        print("Take 10 seconds to think of a situation you are currently dealing with.\n"
+        print("Take 5 seconds to think of a situation you are currently dealing with.\n"
               ".....")
-        time.sleep(10)
+        time.sleep(5)
         print("CARD 1: The card that represents your situation is the {position} {name}.".format(position = tempHand[0].position, name = tempHand[0].name))
         if tempHand[0].position == "upright":
             print("MEANING: " + tempHand[0].upright_meaning)
@@ -156,9 +135,9 @@ class deck:
 
         print("  F O U R  C A R D  S P R E A D  \n"
             "_____________________________________")
-        print("Take 10 seconds to think of a goal you have.\n"
+        print("Take 5 seconds to think of a goal you have.\n"
               ".....")
-        time.sleep(10)
+        time.sleep(5)
         print("CARD 1: The nature of your current GOAL can be found in the {position} {name}.".format(position = tempHand[0].position, name = tempHand[0].name))
         if tempHand[0].position == "upright":
             print("MEANING: " + tempHand[0].upright_meaning)
@@ -195,6 +174,8 @@ class deck:
             tempHand.append(tempDeck[counter])
             counter += 1
 
+        print("  F I V E  C A R D  L O V E\n"
+            "_____________________________________")
         print("This 5 card spread gives insight into love and relationships in general.")
         print("Card 1: You")
         print("The card that repesents you in this relationship is the {position} {name}.".format(position = tempHand[0].position, name = tempHand[0].name))
@@ -211,10 +192,14 @@ class deck:
                 print("The {position} {name}: ".format(position=card.position, name=card.name) + card.upright_meaning)
             else:
                 print("The {position} {name}: ".format(position=card.position, name=card.name) + card.reversed_meaning)
+        print("_____________________________________")
 
 
 #PULLING CARD DATA FROM TEXT FILE
-with open('card_data.txt') as card_doc:
+script_path = Path(__file__).resolve()
+parent_dir = script_path.parent
+joined_file = os.path.join(parent_dir, "card_data.txt")
+with open(joined_file) as card_doc:
     card_text = card_doc.read()
     first_split = card_text.split('!')
     second_split = []
@@ -226,6 +211,7 @@ with open('card_data.txt') as card_doc:
 
 #BUILDING NEW DECK
 new_deck = deck(tarot_deck, "Raider Waite")
+reply1 = None
 
 #START MAIN LOOP
 print("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n"
@@ -233,14 +219,15 @@ print("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n"
       "|         T A R O T  R E A D I N G S        |\n"
       "|                                           |\n"
       "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=")
+# B:\Git\tarot_readings\python_tarot\main.py
 print("Welcome! Would you like a reading today? Y/N")
 loop1 = True
-while loop1 == True:
+while loop1:
     reply1 = input()
     if reply1 == 'n' or reply1 == 'N':
         print("Okay, goodbye!")
         exit()
-    elif reply1 == 'y' or reply1 == 'Y':
+    elif str(reply1) == 'y' or str(reply1) == 'Y':
         loop1 = False
     else:
         print("Please enter either Y or N")
@@ -280,9 +267,9 @@ while loop2 == True:
         print("The value entered must a number 1 through 6")
         continue
 
-    print("Would you like another reading? Y/N")
     loop3 = True
     while loop3 == True:
+        print("Would you like another reading? Y/N")
         reply3 = input()
         if reply3 == 'y' or reply3 == 'Y':
             loop3 = False
